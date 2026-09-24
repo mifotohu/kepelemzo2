@@ -2,5 +2,7 @@
   "name": "AI kép elemző",
   "description": "Egy eszköz, amely egy AI által generált képből elemzi és azonosítja a lehetséges létrehozási promptot.",
   "requestFramePermissions": [],
-  "majorCapabilities": []
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

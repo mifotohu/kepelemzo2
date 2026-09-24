@@ -7,12 +7,9 @@ interface ApiKeyInputProps {
 
 const ApiKeyInput: React.FC<ApiKeyInputProps> = ({ apiKey, onApiKeySave }) => {
   const [currentKey, setCurrentKey] = useState(apiKey);
-  const [isEditing, setIsEditing] = useState(!apiKey);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    if (!apiKey) {
-      setIsEditing(true);
-    }
     setCurrentKey(apiKey);
   }, [apiKey]);
 
@@ -34,14 +31,16 @@ const ApiKeyInput: React.FC<ApiKeyInputProps> = ({ apiKey, onApiKeySave }) => {
   if (!isEditing) {
     return (
       <div className="flex items-center justify-between p-3 bg-shark/50 border border-comet rounded-lg mb-6">
-        <p className="text-nevada text-sm">API Kulcs Beállítva</p>
+        <p className="text-nevada text-sm">{apiKey ? 'Egyéni API Kulcs Beállítva' : 'Alapértelmezett rendszer API kulcs használatban'}</p>
         <div>
           <button onClick={handleEdit} className="text-sm bg-nevada hover:bg-gray-600 text-white font-bold py-1 px-3 rounded-md transition-colors duration-300 mr-2">
             Módosítás
           </button>
-          <button onClick={handleClear} className="text-sm bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-3 rounded-md transition-colors duration-300">
-            Törlés
-          </button>
+          {apiKey && (
+            <button onClick={handleClear} className="text-sm bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-3 rounded-md transition-colors duration-300">
+              Törlés
+            </button>
+          )}
         </div>
       </div>
     );
@@ -49,9 +48,9 @@ const ApiKeyInput: React.FC<ApiKeyInputProps> = ({ apiKey, onApiKeySave }) => {
 
   return (
     <div className="p-4 border border-azure rounded-lg mb-6 bg-shark/50">
-        <h3 className="font-semibold text-whisper mb-2">Google AI API Kulcs Megadása</h3>
+        <h3 className="font-semibold text-whisper mb-2">Egyéni Google AI API Kulcs Megadása (Opcionális)</h3>
         <p className="text-sm text-white mb-3">
-          Az alkalmazás a Google mesterséges intelligenciáját használja a képek elemzéséhez. A használathoz szükséged lesz egy saját, ingyenes Google AI API kulcsra. Ez a kulcs azonosít téged a Google felé, és lehetővé teszi a szolgáltatás korlátozott, ingyenes használatát.
+          Az alkalmazás alapértelmezetten a saját rendszer kulcsát használja. Ha szeretnéd, megadhatsz egy saját, ingyenes Google AI API kulcsot is.
           <br />
           <strong>A kulcsot biztonságosan, csak a te böngésződben, a helyi tárolóban mentjük el, soha nem küldjük tovább sehova.</strong>
         </p>

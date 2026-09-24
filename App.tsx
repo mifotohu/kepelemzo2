@@ -62,10 +62,6 @@ const App: React.FC = () => {
       setError("Kérlek, először válassz ki egy képet.");
       return;
     }
-    if (!apiKey) {
-      setError("API kulcs szükséges az elemzéshez.");
-      return;
-    }
 
     setIsLoading(true);
     setAnalysisResult(null);
@@ -98,62 +94,54 @@ const App: React.FC = () => {
         <Header />
         
         <main className="mt-8 bg-shark border border-comet rounded-lg shadow-2xl p-6 md:p-8 transition-all duration-300 flex-grow">
-          { !apiKey ? (
-              <ApiKeyInput apiKey={apiKey} onApiKeySave={handleApiKeySave} />
+          <ApiKeyInput apiKey={apiKey} onApiKeySave={handleApiKeySave} />
+          {!imagePreviewUrl ? (
+            <ImageUploader onFileChange={handleFileChange} />
           ) : (
-            <>
-              <ApiKeyInput apiKey={apiKey} onApiKeySave={handleApiKeySave} />
-              {!imagePreviewUrl ? (
-                <ImageUploader onFileChange={handleFileChange} />
-              ) : (
-                <div className="flex flex-col items-center">
-                  <div className="w-full max-w-md relative mb-6">
-                    <img
-                      src={imagePreviewUrl}
-                      alt="Feltöltött kép előnézete"
-                      className="rounded-lg shadow-lg object-contain max-h-[60vh]"
-                    />
-                  </div>
-    
-                  <div className="flex flex-col sm:flex-row items-center gap-4">
-                    <button
-                      onClick={handleAnalyze}
-                      disabled={isLoading}
-                      className="w-full sm:w-auto bg-azure hover:bg-blue-600 disabled:bg-comet disabled:cursor-not-allowed text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300 flex items-center justify-center text-lg"
-                    >
-                      {isLoading ? 'Elemzés...' : 'Kép Elemzése'}
-                    </button>
-                    <button
-                      onClick={resetState}
-                      disabled={isLoading}
-                      className="w-full sm:w-auto bg-nevada hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300"
-                    >
-                      Új Kép
-                    </button>
-                  </div>
-                </div>
-              )}
-    
-              {isLoading && <Loader />}
-              
-              {error && (
-                <div className="mt-8 text-center text-red-400 bg-red-900/50 border border-red-500 rounded-lg p-4">
-                  <p className="font-semibold">Hiba!</p>
-                  <p>{error}</p>
-                </div>
-              )}
-    
-              {analysisResult && <ResultDisplay result={analysisResult} />}
-            </>
+            <div className="flex flex-col items-center">
+              <div className="w-full max-w-md relative mb-6">
+                <img
+                  src={imagePreviewUrl}
+                  alt="Feltöltött kép előnézete"
+                  className="rounded-lg shadow-lg object-contain max-h-[60vh]"
+                />
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-center gap-4">
+                <button
+                  onClick={handleAnalyze}
+                  disabled={isLoading}
+                  className="w-full sm:w-auto bg-azure hover:bg-blue-600 disabled:bg-comet disabled:cursor-not-allowed text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300 flex items-center justify-center text-lg"
+                >
+                  {isLoading ? 'Elemzés...' : 'Kép Elemzése'}
+                </button>
+                <button
+                  onClick={resetState}
+                  disabled={isLoading}
+                  className="w-full sm:w-auto bg-nevada hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300"
+                >
+                  Új Kép
+                </button>
+              </div>
+            </div>
           )}
+
+          {isLoading && <Loader />}
+          
+          {error && (
+            <div className="mt-8 text-center text-red-400 bg-red-900/50 border border-red-500 rounded-lg p-4">
+              <p className="font-semibold">Hiba!</p>
+              <p>{error}</p>
+            </div>
+          )}
+
+          {analysisResult && <ResultDisplay result={analysisResult} />}
         </main>
         
-        {apiKey && (
-            <div className="footer text-center py-8">
-                <p className="text-lg text-white">MIfoto.hu - a [MI] közösségünk!</p>
-                <a href="https://www.mifoto.hu" target="_blank" rel="noopener noreferrer" className="text-azure hover:underline">www.mifoto.hu</a>
-            </div>
-        )}
+        <div className="footer text-center py-8">
+            <p className="text-lg text-white">MIfoto.hu - a [MI] közösségünk!</p>
+            <a href="https://www.mifoto.hu" target="_blank" rel="noopener noreferrer" className="text-azure hover:underline">www.mifoto.hu</a>
+        </div>
       </div>
     </div>
   );
